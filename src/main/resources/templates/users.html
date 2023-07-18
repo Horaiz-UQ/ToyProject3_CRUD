@@ -13,6 +13,7 @@
         <th>Email</th>
         <th>등급</th>
         <th>게시글 수</th>
+        <th>댓글 수</th>
         <th>등급 변경</th>
     </tr>
     <th:block th:each="user : ${users}">
@@ -22,6 +23,7 @@
             <td th:text="${user.email}"></td>
             <td th:text="${user.userrole}"></td>
             <td th:text="${user.qtyOfBoard}"></td>
+            <td th:text="${user.qtyOfReply}"></td>
             <td>
                 <form th:action="@{/users/{id}/userrole(id=${user.id})}" method="post">
                     <select name="userrole">

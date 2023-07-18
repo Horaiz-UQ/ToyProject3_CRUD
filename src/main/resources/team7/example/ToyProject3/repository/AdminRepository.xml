@@ -6,11 +6,10 @@
 <mapper namespace="team7.example.ToyProject3.repository.AdminRepository">
 
     <select id="getAllUsers" resultType="team7.example.ToyProject3.dto.AllUsersInfoDto">
-        SELECT u.id, u.name, u.nickname, u.email, u.user_role AS userrole, COUNT(b.id) AS qtyOfBoard
+        SELECT u.id, u.name, u.nickname, u.email, u.user_role AS userrole, IFNULL(qtyOfBoard, 0) AS qtyOfBoard, IFNULL(qtyOfReply, 0) AS qtyOfReply
         FROM user u
-        LEFT JOIN board b ON u.id = b.user_id
-        GROUP BY u.id
-        ORDER BY qtyOfBoard DESC
+        LEFT JOIN ( SELECT user_id, COUNT(id) AS qtyOfBoard FROM board GROUP BY user_id) b ON u.id = b.user_id
+        LEFT JOIN ( SELECT b.user_id, COUNT(r.id) AS qtyOfReply FROM board b LEFT JOIN reply r ON b.id = r.board_id GROUP BY b.user_id ) r ON u.id = r.user_id
     </select>
 
     <update id="updateRoleById">

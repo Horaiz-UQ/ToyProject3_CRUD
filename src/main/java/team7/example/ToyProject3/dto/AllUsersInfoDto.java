@@ -20,4 +20,5 @@ public class AllUsersInfoDto {
     @Enumerated(value = EnumType.STRING)
     private UserRole userrole;
     private Integer qtyOfBoard;
+    private Integer qtyOfReply;
 }
