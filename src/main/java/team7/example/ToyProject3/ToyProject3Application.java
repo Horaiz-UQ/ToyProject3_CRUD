@@ -1,4 +1,4 @@
-package team7.example.Toyproject3;
+package team7.example.ToyProject3;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
