@@ -1,0 +1,63 @@
+package team7.example.ToyProject3.controller;
+
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import team7.example.ToyProject3.domain.Role;
+import team7.example.ToyProject3.dto.AdminBoardDto;
+import team7.example.ToyProject3.dto.AllUsersInfoDto;
+import team7.example.ToyProject3.service.AdminService;
+
+import java.util.List;
+
+
+@Controller
+@AllArgsConstructor
+public class AdminController {
+
+    private AdminService adminService;
+
+    // 어드민 페이지
+    @GetMapping("/admin")
+    public String dispAdmin() {
+        return "admin";
+    }
+
+
+    // 유저 리스트
+    @GetMapping("/users")
+    public String getAllUsers(Model model) {
+        List<AllUsersInfoDto> users = adminService.getAllUsers();
+        model.addAttribute("users", users);
+        return "users";
+    }
+
+    // 유저 등급 변경
+    @PostMapping("/users/{id}/role")
+    public String updateUserRole(@PathVariable Long id, @RequestParam Role role) {
+        adminService.updateRoleById(id, role);
+        return "redirect:/users";
+    }
+
+    // 게시글 리스트
+    @GetMapping("/userboard")
+    public String getAllBoards(Model model) {
+        List<AdminBoardDto> adminBoardDto = adminService.getAllBoards();
+        model.addAttribute("userboard", adminBoardDto);
+        return "userboard";
+    }
+
+    // 게시글 삭제
+    @PostMapping("/boardList/{id}/delete")
+    public String deleteBoard(@PathVariable(name = "id") Integer id) {
+
+        adminService.deleteBoardById(id);
+
+        return "redirect:/userboard";
+    }
+
+}
