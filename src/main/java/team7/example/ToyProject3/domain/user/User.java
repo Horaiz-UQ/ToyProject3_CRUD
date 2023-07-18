@@ -1,14 +1,11 @@
-package team7.example.ToyProject3.domain;
+package team7.example.ToyProject3.domain.user;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 
-@NoArgsConstructor
-@AllArgsConstructor
+
 @Data
 @Table(name = "user")
 @Entity
@@ -29,8 +26,9 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private Role role;
 
+    @Column(name = "user_role")
     @Enumerated(value = EnumType.STRING)
-    private UserRole userrole;
+    private UserRole userRole;
 
     private String nickname;
 
@@ -40,12 +38,6 @@ public class User {
     @Column(name = "updated_at")
     private Timestamp updatedAt;
 
-    public void setAdmain(String email){
-        if(this.email == email)
-            role = Role.ADMIN;
-        else
-            role = Role.USER;
-    }
 
 
 }

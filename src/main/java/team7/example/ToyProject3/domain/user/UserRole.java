@@ -1,4 +1,4 @@
-package team7.example.ToyProject3.domain;
+package team7.example.ToyProject3.domain.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum UserRole {
-    NOMAL("NORMAL"),
+    NORMAL("NORMAL"),
     VIP("VIP"),
     BLACK("BLACKLIST");
 

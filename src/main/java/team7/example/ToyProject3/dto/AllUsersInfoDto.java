@@ -1,7 +1,7 @@
 package team7.example.ToyProject3.dto;
 
 import lombok.*;
-import team7.example.ToyProject3.domain.Role;
+import team7.example.ToyProject3.domain.user.UserRole;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -18,6 +18,6 @@ public class AllUsersInfoDto {
     private String nickname;
     private String email;
     @Enumerated(value = EnumType.STRING)
-    private Role role;
+    private UserRole userrole;
     private Integer qtyOfBoard;
 }

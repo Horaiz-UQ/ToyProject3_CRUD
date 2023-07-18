@@ -1,6 +1,10 @@
-package team7.example.ToyProject3.domain;
+package team7.example.ToyProject3.domain.board;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import team7.example.ToyProject3.domain.user.User;
 import team7.example.ToyProject3.dto.board.BoardRequest;
 
 import javax.persistence.*;
@@ -10,27 +14,33 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Getter
 @Entity
-@Table(name = "board")
 public class Board {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false)
     private String title;
+
     @Lob
     private String content;
+
     @Lob
     private String thumbnail;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private BoardType boardType;
+
+    @Enumerated(EnumType.STRING)
+    private BoardStatus boardStatus;
 
     private Timestamp createdAt;
     private Timestamp updateAt;

@@ -4,10 +4,10 @@ import lombok.AllArgsConstructor;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.stereotype.Service;
-import team7.example.ToyProject3.domain.Role;
+import team7.example.ToyProject3.domain.user.UserRole;
 import team7.example.ToyProject3.dto.AdminBoardDto;
-import team7.example.ToyProject3.dto.AllUsersInfoDto;
 import team7.example.ToyProject3.repository.AdminRepository;
+import team7.example.ToyProject3.dto.AllUsersInfoDto;
 
 import java.util.List;
 
@@ -27,10 +27,10 @@ public class AdminService {
     }
 
     // 유저 등급 변경
-    public void updateRoleById(Long id, Role role) {
+    public void updateRoleById(Long id, UserRole userrole) {
         try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
             AdminRepository adminRepository = sqlSession.getMapper(AdminRepository.class);
-            adminRepository.updateRoleById(id, role);
+            adminRepository.updateRoleById(id, userrole);
             sqlSession.commit();
         }
     }

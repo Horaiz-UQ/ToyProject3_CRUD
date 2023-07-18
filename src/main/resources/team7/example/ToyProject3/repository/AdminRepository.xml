@@ -6,7 +6,7 @@
 <mapper namespace="team7.example.ToyProject3.repository.AdminRepository">
 
     <select id="getAllUsers" resultType="team7.example.ToyProject3.dto.AllUsersInfoDto">
-        SELECT u.id, u.name, u.nickname, u.email, u.role AS role, COUNT(b.id) AS qtyOfBoard
+        SELECT u.id, u.name, u.nickname, u.email, u.user_role AS userrole, COUNT(b.id) AS qtyOfBoard
         FROM user u
         LEFT JOIN board b ON u.id = b.user_id
         GROUP BY u.id
@@ -14,7 +14,7 @@
     </select>
 
     <update id="updateRoleById">
-        UPDATE user SET role = #{role} WHERE id = #{id}
+        UPDATE user SET user_role = #{userrole} WHERE id = #{id}
     </update>
 
     <select id="getAllBoards" resultType="team7.example.ToyProject3.dto.AdminBoardDto">

@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import team7.example.ToyProject3.domain.Role;
+import team7.example.ToyProject3.domain.user.UserRole;
+import team7.example.ToyProject3.service.AdminService;
 import team7.example.ToyProject3.dto.AdminBoardDto;
 import team7.example.ToyProject3.dto.AllUsersInfoDto;
-import team7.example.ToyProject3.service.AdminService;
 
 import java.util.List;
 
@@ -37,9 +37,9 @@ public class AdminController {
     }
 
     // 유저 등급 변경
-    @PostMapping("/users/{id}/role")
-    public String updateUserRole(@PathVariable Long id, @RequestParam Role role) {
-        adminService.updateRoleById(id, role);
+    @PostMapping("/users/{id}/userrole")
+    public String updateUserRole(@PathVariable Long id, @RequestParam UserRole userrole) {
+        adminService.updateRoleById(id, userrole);
         return "redirect:/users";
     }
 
