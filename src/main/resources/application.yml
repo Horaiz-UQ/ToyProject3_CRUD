@@ -1,0 +1,26 @@
+server:
+  port: 8080
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/CRUDDB?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: root1234
+  jpa:
+    hibernate:
+      ddl-auto: create
+    open-in-view: true
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+        default_batch_fetch_size: 100
+mybatis:
+  type-aliases-package: team7.example.ToyProject3.domain
+  mapper-locations: classpath:mapper/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
