@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import team7.example.ToyProject3.domain.board.BoardStatus;
 import team7.example.ToyProject3.domain.user.UserRole;
 import team7.example.ToyProject3.dto.AdminBoardDto;
+import team7.example.ToyProject3.dto.AdminReportDto;
 import team7.example.ToyProject3.repository.AdminRepository;
 import team7.example.ToyProject3.dto.AllUsersInfoDto;
 
@@ -81,6 +82,21 @@ public class AdminService {
         }
     }
 
+    // 신고 게시판
+    public List<AdminReportDto> findReportsByBoardId() {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+            AdminRepository adminRepository = sqlSession.getMapper(AdminRepository.class);
+            return adminRepository.findReportsByBoardId();
+        }
+    }
 
+    // 신고 게시판 등급 변경
+    public void updateBlackById(Long id, UserRole userrole) {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+            AdminRepository adminRepository = sqlSession.getMapper(AdminRepository.class);
+            adminRepository.updateBlackById(id, userrole);
+            sqlSession.commit();
+        }
+    }
 
 }

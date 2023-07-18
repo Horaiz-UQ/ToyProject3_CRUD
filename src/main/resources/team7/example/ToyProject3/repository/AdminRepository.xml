@@ -37,5 +37,18 @@
         UPDATE board SET board_status = #{boardStatus} WHERE id = #{id}
     </update>
 
+    <select id="getAllReport" resultType="Report">
+        select * from report
+    </select>
+
+    <select id="findReportsByBoardId" resultType="team7.example.ToyProject3.dto.AdminReportDto">
+        SELECT r.id, b.title, u.id as userId, u.user_role as userRole, r.description, r.file_path as filePath FROM report r
+        LEFT OUTER JOIN board b ON r.board_id = b.id
+        LEFT OUTER JOIN user u ON r.user_id = u.id
+    </select>
+
+    <update id="updateBlackById">
+        UPDATE user SET user_role = #{userrole} WHERE id = #{id}
+    </update>
 
 </mapper>

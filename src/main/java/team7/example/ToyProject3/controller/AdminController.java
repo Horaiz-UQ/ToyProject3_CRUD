@@ -5,10 +5,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import team7.example.ToyProject3.domain.board.BoardStatus;
+import team7.example.ToyProject3.domain.report.Report;
 import team7.example.ToyProject3.domain.user.UserRole;
+import team7.example.ToyProject3.dto.AdminReportDto;
 import team7.example.ToyProject3.service.AdminService;
 import team7.example.ToyProject3.dto.AdminBoardDto;
 import team7.example.ToyProject3.dto.AllUsersInfoDto;
+import team7.example.ToyProject3.service.ReportService;
 
 import java.util.List;
 
@@ -65,6 +68,21 @@ public class AdminController {
         adminService.deleteBoardById(id);
 
         return "redirect:/userboard";
+    }
+
+    // 신고 게시판
+    @GetMapping("/report")
+    public String reportList(Model model) {
+        List<AdminReportDto> reports = adminService.findReportsByBoardId();
+        model.addAttribute("reports", reports);
+        return "report";
+    }
+
+    // 신고 게시판 유저 등급 변경
+    @PostMapping("/report/{id}/userrole")
+    public String updateUserRoleBlack(@PathVariable Long id, @RequestParam UserRole userrole) {
+        adminService.updateBlackById(id, userrole);
+        return "redirect:/report";
     }
 
 }
