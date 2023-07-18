@@ -22,4 +22,6 @@ public interface AdminRepository {
 
     Integer deleteBoardById(Integer id);
 
+    Integer deleteRepliesByBoardId(Integer id);
+
 }

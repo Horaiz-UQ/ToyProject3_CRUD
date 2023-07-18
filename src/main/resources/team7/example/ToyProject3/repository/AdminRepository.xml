@@ -18,7 +18,7 @@
 
     <select id="getAllBoards" resultType="team7.example.ToyProject3.dto.AdminBoardDto">
         SELECT b.id, u.nickname, b.title, b.created_At
-        FROM board b LEFT OUTER JOIN user u ON user_id = u.id;
+        FROM board b LEFT OUTER JOIN user u ON user_id = u.id
     </select>
 
     <select id="findBoardById" resultType="Board">
@@ -27,6 +27,10 @@
 
     <delete id="deleteBoardById">
         DELETE FROM board WHERE id = #{id}
+    </delete>
+
+    <delete id="deleteRepliesByBoardId">
+        DELETE FROM reply WHERE board_id = #{id}
     </delete>
 
 </mapper>

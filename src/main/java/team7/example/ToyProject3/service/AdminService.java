@@ -62,5 +62,14 @@ public class AdminService {
         }
     }
 
+    // 댓글 삭제
+    public void deleteRepliesByBoardId(Integer id) {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+            AdminRepository adminRepository = sqlSession.getMapper(AdminRepository.class);
+            adminRepository.deleteRepliesByBoardId(id);
+            sqlSession.commit();
+        }
+    }
+
 
 }
