@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.stereotype.Service;
+import team7.example.ToyProject3.domain.board.BoardStatus;
 import team7.example.ToyProject3.domain.user.UserRole;
 import team7.example.ToyProject3.dto.AdminBoardDto;
 import team7.example.ToyProject3.repository.AdminRepository;
@@ -53,6 +54,15 @@ public class AdminService {
         }
     }
 
+    // 게시글 상태 변경
+    public void updateBoardStatus(Integer id, BoardStatus boardStatus) {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+            AdminRepository adminRepository = sqlSession.getMapper(AdminRepository.class);
+            adminRepository.updateBoardStatus(id, boardStatus);
+            sqlSession.commit();
+        }
+    }
+
     // 게시글 삭제
     public void deleteBoardById(Integer id) {
         try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
@@ -70,6 +80,7 @@ public class AdminService {
             sqlSession.commit();
         }
     }
+
 
 
 }

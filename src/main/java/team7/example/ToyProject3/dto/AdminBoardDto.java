@@ -1,7 +1,10 @@
 package team7.example.ToyProject3.dto;
 
 import lombok.*;
+import team7.example.ToyProject3.domain.board.BoardStatus;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.sql.Timestamp;
 
 @Getter
@@ -14,4 +17,6 @@ public class AdminBoardDto {
     private String nickname;
     private String title;
     private Timestamp createdAt;
+    @Enumerated(value = EnumType.STRING)
+    public BoardStatus boardStatus;
 }

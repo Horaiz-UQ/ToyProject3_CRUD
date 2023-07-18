@@ -3,10 +3,8 @@ package team7.example.ToyProject3.controller;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import team7.example.ToyProject3.domain.board.BoardStatus;
 import team7.example.ToyProject3.domain.user.UserRole;
 import team7.example.ToyProject3.service.AdminService;
 import team7.example.ToyProject3.dto.AdminBoardDto;
@@ -49,6 +47,13 @@ public class AdminController {
         List<AdminBoardDto> adminBoardDto = adminService.getAllBoards();
         model.addAttribute("userboard", adminBoardDto);
         return "userboard";
+    }
+
+    // 게시글 상태 업데이트
+    @PostMapping("/userboard/{id}/boardStatus")
+    public String updateBoardStatus(@PathVariable Integer id, @RequestParam BoardStatus boardStatus) {
+        adminService.updateBoardStatus(id, boardStatus);
+        return "redirect:/userboard";
     }
 
     // 게시글 삭제

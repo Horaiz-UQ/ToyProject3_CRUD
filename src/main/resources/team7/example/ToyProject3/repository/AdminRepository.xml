@@ -33,4 +33,9 @@
         DELETE FROM reply WHERE board_id = #{id}
     </delete>
 
+    <update id="updateBoardStatus">
+        UPDATE board SET board_status = #{boardStatus} WHERE id = #{id}
+    </update>
+
+
 </mapper>
