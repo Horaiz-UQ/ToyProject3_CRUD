@@ -5,11 +5,12 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.stereotype.Service;
 import team7.example.ToyProject3.domain.board.BoardStatus;
+import team7.example.ToyProject3.domain.user.User;
 import team7.example.ToyProject3.domain.user.UserRole;
 import team7.example.ToyProject3.dto.AdminBoardDto;
 import team7.example.ToyProject3.dto.AdminReportDto;
-import team7.example.ToyProject3.repository.AdminRepository;
 import team7.example.ToyProject3.dto.AllUsersInfoDto;
+import team7.example.ToyProject3.repository.AdminRepository;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ import java.util.List;
 public class AdminService {
 
     private final SqlSessionFactory sqlSessionFactory;
-
+    private final EmailService emailService;
 
     // 유저 리스트
     public List<AllUsersInfoDto> getAllUsers() {
@@ -33,17 +34,29 @@ public class AdminService {
         try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
             AdminRepository adminRepository = sqlSession.getMapper(AdminRepository.class);
             adminRepository.updateRoleById(id, userrole);
+
+            User userData = adminRepository.findUserById(id);
+            emailService.sendSimpleText(userData);
+
             sqlSession.commit();
         }
     }
 
-
-    // 이메일 발송
-    public void sendEmailToUser(Long userId, String subject, String message) {
+    // 유저 정렬(게시글)
+    public List<AllUsersInfoDto> getAllUsersOrderByBoard() {
         try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
             AdminRepository adminRepository = sqlSession.getMapper(AdminRepository.class);
-            adminRepository.sendEmailToUser(userId, subject, message);
-            sqlSession.commit();
+            adminRepository.getAllUsersOrderByBoard();
+            return adminRepository.getAllUsersOrderByBoard();
+        }
+    }
+
+    // 유저 정렬(댓글)
+    public List<AllUsersInfoDto> getAllUsersOrderByReply() {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+            AdminRepository adminRepository = sqlSession.getMapper(AdminRepository.class);
+            adminRepository.getAllUsersOrderByReply();
+            return adminRepository.getAllUsersOrderByReply();
         }
     }
 
@@ -56,7 +69,7 @@ public class AdminService {
     }
 
     // 게시글 상태 변경
-    public void updateBoardStatus(Integer id, BoardStatus boardStatus) {
+    public void updateBoardStatus(Long id, BoardStatus boardStatus) {
         try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
             AdminRepository adminRepository = sqlSession.getMapper(AdminRepository.class);
             adminRepository.updateBoardStatus(id, boardStatus);
@@ -65,7 +78,7 @@ public class AdminService {
     }
 
     // 게시글 삭제
-    public void deleteBoardById(Integer id) {
+    public void deleteBoardById(Long id) {
         try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
             AdminRepository adminRepository = sqlSession.getMapper(AdminRepository.class);
             adminRepository.deleteBoardById(id);
@@ -74,7 +87,7 @@ public class AdminService {
     }
 
     // 댓글 삭제
-    public void deleteRepliesByBoardId(Integer id) {
+    public void deleteRepliesByBoardId(Long id) {
         try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
             AdminRepository adminRepository = sqlSession.getMapper(AdminRepository.class);
             adminRepository.deleteRepliesByBoardId(id);
@@ -95,6 +108,23 @@ public class AdminService {
         try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
             AdminRepository adminRepository = sqlSession.getMapper(AdminRepository.class);
             adminRepository.updateBlackById(id, userrole);
+            sqlSession.commit();
+        }
+    }
+
+    // 신고 승인
+    public void updateReportBlackById(Long id, UserRole userrole) {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+            AdminRepository adminRepository = sqlSession.getMapper(AdminRepository.class);
+            adminRepository.updateReportBlackById(id, userrole);
+            sqlSession.commit();
+        }
+    }
+    // 신고 거절
+    public void deleteReportByBoardId(Long id) {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+            AdminRepository adminRepository = sqlSession.getMapper(AdminRepository.class);
+            adminRepository.deleteReportByBoardId(id);
             sqlSession.commit();
         }
     }

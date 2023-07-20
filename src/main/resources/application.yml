@@ -29,6 +29,16 @@ spring:
             scope:
               - email
               - profile
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ekzmvlfxj@gmail.com
+    password: xpqkkztafyjeupuc
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls.enable: true
 mybatis:
   type-aliases-package: team7.example.ToyProject3.domain
   mapper-locations: classpath:mapper/**/*.xml

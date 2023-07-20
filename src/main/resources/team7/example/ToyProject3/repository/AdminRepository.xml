@@ -12,6 +12,26 @@
         LEFT JOIN ( SELECT b.user_id, COUNT(r.id) AS qtyOfReply FROM board b LEFT JOIN reply r ON b.id = r.board_id GROUP BY b.user_id ) r ON u.id = r.user_id
     </select>
 
+    <select id="getAllUsersOrderByBoard" resultType="team7.example.ToyProject3.dto.AllUsersInfoDto">
+        SELECT u.id, u.name, u.nickname, u.email, u.user_role AS userrole, IFNULL(qtyOfBoard, 0) AS qtyOfBoard, IFNULL(qtyOfReply, 0) AS qtyOfReply
+        FROM user u
+        LEFT JOIN ( SELECT user_id, COUNT(id) AS qtyOfBoard FROM board GROUP BY user_id) b ON u.id = b.user_id
+        LEFT JOIN ( SELECT b.user_id, COUNT(r.id) AS qtyOfReply FROM board b LEFT JOIN reply r ON b.id = r.board_id GROUP BY b.user_id ) r ON u.id = r.user_id
+        ORDER BY qtyOfBoard DESC;
+    </select>
+
+    <select id="getAllUsersOrderByReply" resultType="team7.example.ToyProject3.dto.AllUsersInfoDto">
+        SELECT u.id, u.name, u.nickname, u.email, u.user_role AS userrole, IFNULL(qtyOfBoard, 0) AS qtyOfBoard, IFNULL(qtyOfReply, 0) AS qtyOfReply
+        FROM user u
+        LEFT JOIN ( SELECT user_id, COUNT(id) AS qtyOfBoard FROM board GROUP BY user_id) b ON u.id = b.user_id
+        LEFT JOIN ( SELECT b.user_id, COUNT(r.id) AS qtyOfReply FROM board b LEFT JOIN reply r ON b.id = r.board_id GROUP BY b.user_id ) r ON u.id = r.user_id
+        ORDER BY qtyOfReply DESC;
+    </select>
+
+    <select id="findUserById" resultType="User">
+        SELECT * FROM user WHERE id = #{id}
+    </select>
+
     <update id="updateRoleById">
         UPDATE user SET user_role = #{userrole} WHERE id = #{id}
     </update>
@@ -42,7 +62,7 @@
     </select>
 
     <select id="findReportsByBoardId" resultType="team7.example.ToyProject3.dto.AdminReportDto">
-        SELECT r.id, b.title, u.id as userId, u.user_role as userRole, r.description, r.file_path as filePath FROM report r
+        SELECT r.id, u.nickname, b.title, u.id as userId, u.user_role as userRole, r.description, r.file_path as filePath FROM report r
         LEFT OUTER JOIN board b ON r.board_id = b.id
         LEFT OUTER JOIN user u ON r.user_id = u.id
     </select>
@@ -50,5 +70,14 @@
     <update id="updateBlackById">
         UPDATE user SET user_role = #{userrole} WHERE id = #{id}
     </update>
+
+    <delete id="deleteReportByBoardId">
+        DELETE FROM report WHERE id = #{id}
+    </delete>
+
+    <update id="updateReportBlackById">
+        UPDATE user SET user_role = #{userrole} WHERE id = #{id}
+    </update>
+
 
 </mapper>
