@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,7 +17,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-
 import team7.example.ToyProject3.domain.user.Role;
 import team7.example.ToyProject3.domain.user.User;
 import team7.example.ToyProject3.domain.user.UserAdaptor;
@@ -31,7 +29,8 @@ import team7.example.ToyProject3.util.Fetch;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.*;
+import java.util.Optional;
+import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
@@ -98,7 +97,7 @@ public class UserController {
             UserDetails userDetails = userService.loadUserByUsername(user.get().getEmail());
             Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            return "/board";
+            return "/index";
         }
 
         // 6. 등록되지 않은 회원이면 회원가입 후 로그인 처리
@@ -125,7 +124,7 @@ public class UserController {
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
 
-            return "/board";
+            return "/index";
         }
 
         return null;
@@ -188,12 +187,11 @@ public class UserController {
         return "/myinfo";
     }
 
-    /*
     // 어드민 페이지
     @GetMapping("/admin")
     public String dispAdmin() {
         return "/admin";
     }
 
-     */
+
 }

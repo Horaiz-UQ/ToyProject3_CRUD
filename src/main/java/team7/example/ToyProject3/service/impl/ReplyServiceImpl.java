@@ -12,6 +12,7 @@ import team7.example.ToyProject3.exception.ErrorCode;
 import team7.example.ToyProject3.exception.ReplyException;
 import team7.example.ToyProject3.repository.BoardRepository;
 import team7.example.ToyProject3.repository.ReplyRepository;
+import team7.example.ToyProject3.service.ReplyService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,11 +21,12 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
-public class ReplyServiceImpl {
+public class ReplyServiceImpl implements ReplyService {
 
 	private final ReplyRepository replyRepository;
 	private final BoardRepository boardRepository;
 
+	@Override
 	@Transactional
 	public void addReply(ReplyRequestDto.ReplyDto saveReplyDto, User user) {
 		Board board = boardRepository.findById(saveReplyDto.getBoardId())
@@ -35,6 +37,7 @@ public class ReplyServiceImpl {
 		replyRepository.save(reply);
 	}
 
+	@Override
 	@Transactional
 	public void deleteReply(Long replyId, Long boardId, User user) {
 		Reply reply = replyRepository.findByIdAndBoardIdAndUserId(replyId, boardId, user.getId())
@@ -42,6 +45,7 @@ public class ReplyServiceImpl {
 		replyRepository.delete(reply);
 	}
 
+	@Override
 	@Transactional(readOnly = true)
 	public List<ReplyResponseDto> getAllReplyByBoard(Long boardId) {
 
@@ -64,6 +68,7 @@ public class ReplyServiceImpl {
 		return replyResponseDtoList;
 	}
 
+	@Override
 	@Transactional
 	public Reply addNestedReply(ReplyRequestDto.NestedReplyDto saveNestedReplyDto, User user) {
 		Board board = boardRepository.findById(saveNestedReplyDto.getBoardId())
@@ -84,7 +89,8 @@ public class ReplyServiceImpl {
 
 		return replyRepository.save(reply);
 	}
-	
+
+	@Override
 	@Transactional
 	public void deleteNestedReply(Long boardId, Long replyId, User user) {
 		Reply reply = replyRepository.findByIdAndBoardIdAndUserId(replyId, boardId, user.getId())

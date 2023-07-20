@@ -8,7 +8,6 @@ import team7.example.ToyProject3.domain.user.User;
 
 import javax.validation.constraints.NotBlank;
 
-
 public class ReplyRequestDto {
 
 	@Getter

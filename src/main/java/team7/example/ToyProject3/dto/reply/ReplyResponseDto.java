@@ -8,7 +8,6 @@ import team7.example.ToyProject3.domain.Reply;
 import team7.example.ToyProject3.domain.board.Board;
 import team7.example.ToyProject3.domain.user.User;
 
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;

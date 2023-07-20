@@ -1,4 +1,4 @@
-package team7.example.ToyProject3.dto;
+package team7.example.ToyProject3.dto.admin;
 
 import lombok.*;
 import team7.example.ToyProject3.domain.user.UserRole;

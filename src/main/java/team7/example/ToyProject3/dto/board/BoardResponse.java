@@ -14,9 +14,9 @@ public class BoardResponse {
     public static class BoardListDTO {
         private Long boardId;
         private String title;
-        private String content;
         private String nickName;
         private String thumbnail;
+        private String thumbnailContent;
         private BoardStatus boardStatus;
     }
 

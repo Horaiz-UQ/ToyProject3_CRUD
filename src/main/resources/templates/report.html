@@ -17,9 +17,7 @@
   <thead>
   <tr>
     <th>신고 사진</th>
-    <th>작성자</th>
     <th>게시글 제목</th>
-    <th>사용자 등급</th>
     <th>신고 사유</th>
   </tr>
   </thead>
@@ -28,9 +26,7 @@
     <td>
       <img th:src="@{'/images' + '?path=' + ${report.filePath}}" class="report-image">
     </td>
-    <td th:text="${report.nickname}"></td>
     <td th:text="${report.title}"></td>
-    <td th:text="${report.userrole}"></td>
     <td th:text="${report.description}"></td>
     <td>
       <form th:action="@{/report/__${report.id}__/update}" method="post" onsubmit="return confirmUpdate();">
@@ -38,6 +34,9 @@
       </form>
       <form th:action="@{/report/__${report.id}__/delete}" method="post" onsubmit="return confirmDelete();">
         <button type="submit">거절</button>
+      </form>
+      <form th:action="@{/report/__${report.id}__/Unblacklist}" method="post" onsubmit="return Unblacklist();">
+        <button type="submit">블랙리스트 해제</button>
       </form>
     </td>
   </tr>
@@ -49,6 +48,9 @@
   }
   function confirmDelete() {
     return confirm("거절 하시겠습니까?");
+  }
+  function Unblacklist() {
+    return confirm("블랙리스트를 해제 하시겠습니까?");
   }
 </script>
 </body>

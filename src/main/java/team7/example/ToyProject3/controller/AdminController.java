@@ -8,10 +8,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import team7.example.ToyProject3.domain.board.BoardStatus;
+import team7.example.ToyProject3.domain.user.Role;
 import team7.example.ToyProject3.domain.user.UserRole;
-import team7.example.ToyProject3.dto.AdminBoardDto;
-import team7.example.ToyProject3.dto.AdminReportDto;
-import team7.example.ToyProject3.dto.AllUsersInfoDto;
+import team7.example.ToyProject3.dto.admin.AdminBoardDto;
+import team7.example.ToyProject3.dto.admin.AdminReportDto;
+import team7.example.ToyProject3.dto.admin.AllUsersInfoDto;
 import team7.example.ToyProject3.service.AdminService;
 
 import java.util.List;
@@ -23,12 +24,13 @@ public class AdminController {
 
     private AdminService adminService;
 
+    /*
     // 어드민 페이지
     @GetMapping("/admin")
     public String dispAdmin() {
         return "admin";
     }
-
+     */
 
     // 유저 리스트
     @GetMapping("/users")
@@ -45,6 +47,7 @@ public class AdminController {
         return "redirect:/users";
     }
 
+    // 게시글 정렬
     @GetMapping("/users/orderByBoard")
     public String getAllUsersOrderByBoard(Model model) {
         List<AllUsersInfoDto> users = adminService.getAllUsersOrderByBoard();
@@ -52,6 +55,7 @@ public class AdminController {
         return "users";
     }
 
+    // 댓글 정렬
     @GetMapping("/users/orderByReply")
     public String getAllUsersOrderByReply(Model model) {
         List<AllUsersInfoDto> users = adminService.getAllUsersOrderByReply();
@@ -103,7 +107,7 @@ public class AdminController {
     // 신고 승인
     @PostMapping("/report/{id}/update")
     public String updateReportBlackById(@PathVariable Long id) {
-        adminService.updateReportBlackById(id, UserRole.BLACK);
+        adminService.updateReportBlackById(id, Role.BLACKLIST, UserRole.BLACK);
         return "redirect:/report";
     }
 
@@ -111,6 +115,13 @@ public class AdminController {
     @PostMapping("/report/{id}/delete")
     public String deleteReportByBoardId(@PathVariable(name = "id") Long id) {
         adminService.deleteReportByBoardId(id);
+        return "redirect:/report";
+    }
+
+    // 블랙리스트 해제
+    @PostMapping("/report/{id}/Unblacklist")
+    public String updateBlacklistByBoardId(@PathVariable Long id) {
+        adminService.updateBlacklistByBoardId(id, Role.USER, UserRole.NORMAL);
         return "redirect:/report";
     }
 }

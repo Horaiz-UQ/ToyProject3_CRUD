@@ -5,11 +5,12 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.stereotype.Service;
 import team7.example.ToyProject3.domain.board.BoardStatus;
+import team7.example.ToyProject3.domain.user.Role;
 import team7.example.ToyProject3.domain.user.User;
 import team7.example.ToyProject3.domain.user.UserRole;
-import team7.example.ToyProject3.dto.AdminBoardDto;
-import team7.example.ToyProject3.dto.AdminReportDto;
-import team7.example.ToyProject3.dto.AllUsersInfoDto;
+import team7.example.ToyProject3.dto.admin.AdminBoardDto;
+import team7.example.ToyProject3.dto.admin.AdminReportDto;
+import team7.example.ToyProject3.dto.admin.AllUsersInfoDto;
 import team7.example.ToyProject3.repository.AdminRepository;
 
 import java.util.List;
@@ -113,10 +114,11 @@ public class AdminService {
     }
 
     // 신고 승인
-    public void updateReportBlackById(Long id, UserRole userrole) {
+    public void updateReportBlackById(Long id, Role role, UserRole userrole) {
         try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
             AdminRepository adminRepository = sqlSession.getMapper(AdminRepository.class);
-            adminRepository.updateReportBlackById(id, userrole);
+            adminRepository.updateReportBlackById(id, role);
+            adminRepository.updateBlackById(id, userrole);
             sqlSession.commit();
         }
     }
@@ -125,6 +127,15 @@ public class AdminService {
         try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
             AdminRepository adminRepository = sqlSession.getMapper(AdminRepository.class);
             adminRepository.deleteReportByBoardId(id);
+            sqlSession.commit();
+        }
+    }
+
+    // 블랙리스트 해제
+    public void updateBlacklistByBoardId(Long id, Role role, UserRole userRole) {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+            AdminRepository adminRepository = sqlSession.getMapper(AdminRepository.class);
+            adminRepository.updateBlacklistByBoardId(id, role, userRole);
             sqlSession.commit();
         }
     }

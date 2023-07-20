@@ -32,12 +32,16 @@ public class User {
 
     private String nickname;
 
+    private int boardCount;
+
     @Column(name = "created_at")
     private Timestamp createdAt;
 
     @Column(name = "updated_at")
     private Timestamp updatedAt;
 
-
+    public void plusBoard() {
+        this.boardCount++;
+    }
 
 }

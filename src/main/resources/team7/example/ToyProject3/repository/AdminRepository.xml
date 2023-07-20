@@ -5,14 +5,14 @@
 
 <mapper namespace="team7.example.ToyProject3.repository.AdminRepository">
 
-    <select id="getAllUsers" resultType="team7.example.ToyProject3.dto.AllUsersInfoDto">
+    <select id="getAllUsers" resultType="team7.example.ToyProject3.dto.admin.AllUsersInfoDto">
         SELECT u.id, u.name, u.nickname, u.email, u.user_role AS userrole, IFNULL(qtyOfBoard, 0) AS qtyOfBoard, IFNULL(qtyOfReply, 0) AS qtyOfReply
         FROM user u
         LEFT JOIN ( SELECT user_id, COUNT(id) AS qtyOfBoard FROM board GROUP BY user_id) b ON u.id = b.user_id
         LEFT JOIN ( SELECT b.user_id, COUNT(r.id) AS qtyOfReply FROM board b LEFT JOIN reply r ON b.id = r.board_id GROUP BY b.user_id ) r ON u.id = r.user_id
     </select>
 
-    <select id="getAllUsersOrderByBoard" resultType="team7.example.ToyProject3.dto.AllUsersInfoDto">
+    <select id="getAllUsersOrderByBoard" resultType="team7.example.ToyProject3.dto.admin.AllUsersInfoDto">
         SELECT u.id, u.name, u.nickname, u.email, u.user_role AS userrole, IFNULL(qtyOfBoard, 0) AS qtyOfBoard, IFNULL(qtyOfReply, 0) AS qtyOfReply
         FROM user u
         LEFT JOIN ( SELECT user_id, COUNT(id) AS qtyOfBoard FROM board GROUP BY user_id) b ON u.id = b.user_id
@@ -20,7 +20,7 @@
         ORDER BY qtyOfBoard DESC;
     </select>
 
-    <select id="getAllUsersOrderByReply" resultType="team7.example.ToyProject3.dto.AllUsersInfoDto">
+    <select id="getAllUsersOrderByReply" resultType="team7.example.ToyProject3.dto.admin.AllUsersInfoDto">
         SELECT u.id, u.name, u.nickname, u.email, u.user_role AS userrole, IFNULL(qtyOfBoard, 0) AS qtyOfBoard, IFNULL(qtyOfReply, 0) AS qtyOfReply
         FROM user u
         LEFT JOIN ( SELECT user_id, COUNT(id) AS qtyOfBoard FROM board GROUP BY user_id) b ON u.id = b.user_id
@@ -36,7 +36,7 @@
         UPDATE user SET user_role = #{userrole} WHERE id = #{id}
     </update>
 
-    <select id="getAllBoards" resultType="team7.example.ToyProject3.dto.AdminBoardDto">
+    <select id="getAllBoards" resultType="team7.example.ToyProject3.dto.admin.AdminBoardDto">
         SELECT b.id, u.nickname, b.title, b.created_At
         FROM board b LEFT OUTER JOIN user u ON user_id = u.id
     </select>
@@ -61,7 +61,7 @@
         select * from report
     </select>
 
-    <select id="findReportsByBoardId" resultType="team7.example.ToyProject3.dto.AdminReportDto">
+    <select id="findReportsByBoardId" resultType="team7.example.ToyProject3.dto.admin.AdminReportDto">
         SELECT r.id, u.nickname, b.title, u.id as userId, u.user_role as userRole, r.description, r.file_path as filePath FROM report r
         LEFT OUTER JOIN board b ON r.board_id = b.id
         LEFT OUTER JOIN user u ON r.user_id = u.id
@@ -76,8 +76,11 @@
     </delete>
 
     <update id="updateReportBlackById">
-        UPDATE user SET user_role = #{userrole} WHERE id = #{id}
+        UPDATE user SET role = #{role} WHERE id = #{id}
     </update>
 
+    <update id="updateBlacklistByBoardId">
+        UPDATE user SET role = #{role}, user_role = #{userRole} WHERE id = #{id}
+    </update>
 
 </mapper>

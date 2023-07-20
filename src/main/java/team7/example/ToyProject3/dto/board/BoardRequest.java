@@ -30,12 +30,14 @@ public class BoardRequest {
         @NotBlank(message = "내용이 공백일 수 없습니다")
         private String content;
         private String thumbnail;
+        private String thumbnailContent;
 
         public Board toEntity(User user) {
             return Board.builder()
                     .content(content)
                     .title(title)
                     .thumbnail(thumbnail)
+                    .thumbnailContent(thumbnailContent)
                     .boardType(byMemberType(user))
                     .user(user)
                     .boardStatus(BoardStatus.ENABLED)

@@ -18,7 +18,7 @@ import team7.example.ToyProject3.dto.board.BoardRequest;
 import team7.example.ToyProject3.dto.board.BoardResponse;
 import team7.example.ToyProject3.dto.reply.ReplyResponseDto;
 import team7.example.ToyProject3.service.BoardService;
-import team7.example.ToyProject3.service.impl.ReplyServiceImpl;
+import team7.example.ToyProject3.service.ReplyService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -29,7 +29,7 @@ import java.util.List;
 public class BoardController {
 
     private final BoardService boardService;
-    private final ReplyServiceImpl replyServiceimpl;
+    private final ReplyService replyService;
 
     @PreAuthorize("permitAll()")
     @GetMapping( "/board")
@@ -64,15 +64,12 @@ public class BoardController {
     @GetMapping("/board/{boardId}")
     public String detail(
         @PathVariable Long boardId,
-        @AuthenticationPrincipal UserAdaptor userAdaptor,
         Model model
     ) {
         BoardResponse.BoardDetailDTO board = boardService.getDetailBoard(boardId);
-        List<ReplyResponseDto> replyList = replyServiceimpl.getAllReplyByBoard(boardId);
-        Long userId = userAdaptor.getUser().getId();
+        List<ReplyResponseDto> replyList = replyService.getAllReplyByBoard(boardId);
         model.addAttribute("board", board);
         model.addAttribute("replyList", replyList);
-        model.addAttribute("userId", userId);
         return "/board/boardDetail";
     }
 

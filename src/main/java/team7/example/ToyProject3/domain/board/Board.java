@@ -31,6 +31,9 @@ public class Board {
     @Lob
     private String thumbnail;
 
+    @Column(length = 300)
+    private String thumbnailContent;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
