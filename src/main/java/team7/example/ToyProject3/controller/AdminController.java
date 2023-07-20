@@ -3,15 +3,16 @@ package team7.example.ToyProject3.controller;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import team7.example.ToyProject3.domain.board.BoardStatus;
-import team7.example.ToyProject3.domain.report.Report;
 import team7.example.ToyProject3.domain.user.UserRole;
-import team7.example.ToyProject3.dto.AdminReportDto;
-import team7.example.ToyProject3.service.AdminService;
 import team7.example.ToyProject3.dto.AdminBoardDto;
+import team7.example.ToyProject3.dto.AdminReportDto;
 import team7.example.ToyProject3.dto.AllUsersInfoDto;
-import team7.example.ToyProject3.service.ReportService;
+import team7.example.ToyProject3.service.AdminService;
 
 import java.util.List;
 
@@ -44,6 +45,20 @@ public class AdminController {
         return "redirect:/users";
     }
 
+    @GetMapping("/users/orderByBoard")
+    public String getAllUsersOrderByBoard(Model model) {
+        List<AllUsersInfoDto> users = adminService.getAllUsersOrderByBoard();
+        model.addAttribute("users", users);
+        return "users";
+    }
+
+    @GetMapping("/users/orderByReply")
+    public String getAllUsersOrderByReply(Model model) {
+        List<AllUsersInfoDto> users = adminService.getAllUsersOrderByReply();
+        model.addAttribute("users", users);
+        return "users";
+    }
+
     // 게시글 리스트
     @GetMapping("/userboard")
     public String getAllBoards(Model model) {
@@ -54,14 +69,14 @@ public class AdminController {
 
     // 게시글 상태 업데이트
     @PostMapping("/userboard/{id}/boardStatus")
-    public String updateBoardStatus(@PathVariable Integer id, @RequestParam BoardStatus boardStatus) {
+    public String updateBoardStatus(@PathVariable Long id, @RequestParam BoardStatus boardStatus) {
         adminService.updateBoardStatus(id, boardStatus);
         return "redirect:/userboard";
     }
 
     // 게시글 삭제
     @PostMapping("/boardList/{id}/delete")
-    public String deleteBoard(@PathVariable(name = "id") Integer id) {
+    public String deleteBoard(@PathVariable(name = "id") Long id) {
 
         adminService.deleteRepliesByBoardId(id);
 
@@ -85,4 +100,17 @@ public class AdminController {
         return "redirect:/report";
     }
 
+    // 신고 승인
+    @PostMapping("/report/{id}/update")
+    public String updateReportBlackById(@PathVariable Long id) {
+        adminService.updateReportBlackById(id, UserRole.BLACK);
+        return "redirect:/report";
+    }
+
+    // 신고 거절
+    @PostMapping("/report/{id}/delete")
+    public String deleteReportByBoardId(@PathVariable(name = "id") Long id) {
+        adminService.deleteReportByBoardId(id);
+        return "redirect:/report";
+    }
 }

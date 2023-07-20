@@ -15,6 +15,7 @@ public class AdminReportDto {
     private Integer id;
     private String title;
     private Integer userId;
+    private String nickname;
     private String description;
     private String filePath;
     @Enumerated(value = EnumType.STRING)

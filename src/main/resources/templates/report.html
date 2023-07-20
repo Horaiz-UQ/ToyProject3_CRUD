@@ -18,44 +18,42 @@
 <table class="table">
   <thead>
   <tr>
-    <th>게시글 ID</th>
+    <th>신고 사진</th>
+    <th>작성자</th>
     <th>게시글 제목</th>
     <th>사용자 등급</th>
     <th>신고 사유</th>
-    <th>신고 사진</th>
   </tr>
   </thead>
   <tbody>
   <tr th:each="report : ${reports}">
-    <td th:text="${report.userId}"></td>
+    <td>
+      <a th:href="@{'file:///' + ${report.filePath}}" target="_blank" class="btn btn-outline-primary">
+        신고 이미지
+      </a>
+    </td>
+    <td th:text="${report.nickname}"></td>
     <td th:text="${report.title}"></td>
     <td th:text="${report.userrole}"></td>
     <td th:text="${report.description}"></td>
     <td>
-      <form th:action="'/report/' + ${report.userId} + '/userrole'" method="post">
-        <input type="hidden" name="_method" value="post">
-        <select name="userrole" onchange="this.form.submit()">
-          <option value="NORMAL">NORMAL</option>
-          <option value="VIP">VIP</option>
-          <option value="BLACK">BLACK</option>
-        </select>
+      <form th:action="@{/report/__${report.id}__/update}" method="post" onsubmit="return confirmUpdate();">
+        <button type="submit">승인</button>
       </form>
-    </td>
-    <td>
-      <button type="button" class="btn btn-primary" data-toggle="modal" th:data-target="'#reportModal' + ${report.userId}">
-        신고 사진 보기
-      </button>
-      <div class="modal" th:id="'reportModal' + ${report.userId}">
-        <div class="report-box">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <img th:src="${report.filePath}" alt="신고 사진" style="max-width: 100%; max-height: 300px;">
-        </div>
-      </div>
+      <form th:action="@{/report/__${report.id}__/delete}" method="post" onsubmit="return confirmDelete();">
+        <button type="submit">거절</button>
+      </form>
     </td>
   </tr>
   </tbody>
 </table>
+<script>
+  function confirmUpdate() {
+    return confirm("등록 하시겠습니까?");
+  }
+  function confirmDelete() {
+    return confirm("거절 하시겠습니까?");
+  }
+</script>
 </body>
 </html>

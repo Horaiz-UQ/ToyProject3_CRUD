@@ -12,6 +12,7 @@ import team7.example.ToyProject3.domain.user.UserAdaptor;
 import team7.example.ToyProject3.dto.report.ReportRequest;
 import team7.example.ToyProject3.service.ReportService;
 
+
 @PreAuthorize("isAuthenticated()")
 @RequiredArgsConstructor
 @Controller
@@ -36,6 +37,7 @@ public class ReportController {
             ReportRequest.reportBoardDTO reportBoardDTO
     ) {
         reportService.report(boardId, userAdaptor.getUser(), reportBoardDTO);
-        return "/board/boardReportForm";
+        return "redirect:/board";
     }
+
 }
